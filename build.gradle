@@ -20,13 +20,14 @@ repositories {
 
 dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-web'
-    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
 
     // validation
     implementation 'org.springframework.boot:spring-boot-starter-validation'
 
-    // database
+    // persistence
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
     runtimeOnly 'com.h2database:h2'
+    compileOnly 'org.mariadb.jdbc:mariadb-java-client'
 
     // lombok
     compileOnly 'org.projectlombok:lombok'
