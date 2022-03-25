@@ -18,7 +18,12 @@ public class PostRestController {
     }
 
     @PostMapping
-    public PostDetailDto writerPost(@RequestBody final PostWritingRequest request) {
+    public PostDetailDto writePost(@RequestBody final PostWritingRequest request) {
         return PostDetailDto.of(postService.writerPost(request.toPost()));
+    }
+
+    @PutMapping("{id}")
+    public PostDetailDto updatePost(@PathVariable final Long id, @RequestBody final PostWritingRequest request) {
+        return PostDetailDto.of(postService.updatePost(id, request.toPost()));
     }
 }

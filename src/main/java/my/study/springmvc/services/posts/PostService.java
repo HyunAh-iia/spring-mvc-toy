@@ -21,4 +21,10 @@ public class PostService {
     public Post writerPost(Post post) {
         return postRepository.save(post);
     }
+
+    @Transactional
+    public Post updatePost(Long id, Post newPost) {
+        Post updatePost = getPost(id);
+        return updatePost.update(newPost);
+    }
 }
