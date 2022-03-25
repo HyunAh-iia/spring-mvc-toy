@@ -27,4 +27,9 @@ public class PostService {
         Post updatePost = getPost(id);
         return updatePost.update(newPost);
     }
+
+    @Transactional
+    public void deletePost(Long id) {
+        postRepository.deleteById(id);
+    }
 }

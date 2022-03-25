@@ -26,4 +26,9 @@ public class PostRestController {
     public PostDetailDto updatePost(@PathVariable final Long id, @RequestBody final PostWritingRequest request) {
         return PostDetailDto.of(postService.updatePost(id, request.toPost()));
     }
+
+    @DeleteMapping("{id}")
+    public void deletePost(@PathVariable final Long id) {
+        postService.deletePost(id);
+    }
 }
