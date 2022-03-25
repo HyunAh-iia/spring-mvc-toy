@@ -1,20 +1,30 @@
 package my.study.springmvc.controller;
 
+import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import my.study.springmvc.controller.dto.PostWritingRequest;
 import my.study.springmvc.controller.dto.PostDetailDto;
-import my.study.springmvc.services.posts.PostService;
+import my.study.springmvc.services.posts.PostsService;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.web.bind.annotation.*;
 
 @RequiredArgsConstructor
-@RequestMapping("post")
+@RequestMapping("posts")
 @RestController
-public class PostRestController {
-    private final PostService postService;
+public class PostsRestController {
+    private final PostsService postService;
 
     @GetMapping("{id}")
     public PostDetailDto getPost(@PathVariable final Long id) {
         return PostDetailDto.of(postService.getPost(id));
+    }
+
+    @GetMapping
+    public Page<PostDetailDto> getPostList(final Pageable pageable) {
+        return postService.getPostList(pageable)
+                .map(PostDetailDto::of);
     }
 
     @PostMapping
