@@ -16,4 +16,9 @@ public class PostService {
         return postRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("해당 게시글이 없습니다."));
     }
+
+    @Transactional
+    public Post writerPost(Post post) {
+        return postRepository.save(post);
+    }
 }
