@@ -21,6 +21,8 @@ public class Post extends AuditEntity {
 
     private String content;
 
+    private boolean deleted;
+
     @Builder
     public Post(final String title, final String content) {
         validateTitle(title);
@@ -28,6 +30,8 @@ public class Post extends AuditEntity {
 
         validateContent(content);
         this.content = content;
+
+        this.deleted = false;
     }
 
     public Post update(final String title, final String content) {
@@ -42,6 +46,10 @@ public class Post extends AuditEntity {
 
     public Post update(final Post newPost) {
         return (update(newPost.getTitle(), newPost.getContent()));
+    }
+
+    public void delete() {
+        this.deleted = true;
     }
 
     private void validateTitle(final String title) {

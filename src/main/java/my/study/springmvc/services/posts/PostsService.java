@@ -11,17 +11,19 @@ import org.springframework.transaction.annotation.Transactional;
 @RequiredArgsConstructor
 @Service
 public class PostsService {
+    private static final boolean NOT_DELETED = false;
+
     private final PostRepository postRepository;
 
     @Transactional(readOnly = true)
     public Post getPost(Long id) {
-        return postRepository.findById(id)
+        return postRepository.findByIdAndDeleted(id, NOT_DELETED)
                 .orElseThrow(() -> new IllegalArgumentException("해당 게시글이 없습니다."));
     }
 
     @Transactional(readOnly = true)
     public Page<Post> getPostList(Pageable pageable) {
-        return postRepository.findAll(pageable);
+        return postRepository.findAllByDeleted(NOT_DELETED, pageable);
     }
 
     @Transactional
@@ -31,12 +33,12 @@ public class PostsService {
 
     @Transactional
     public Post updatePost(Long id, Post newPost) {
-        Post updatePost = getPost(id);
-        return updatePost.update(newPost);
+        Post post = getPost(id);
+        return post.update(newPost);
     }
 
     @Transactional
     public void deletePost(Long id) {
-        postRepository.deleteById(id);
+        getPost(id).delete();
     }
 }
