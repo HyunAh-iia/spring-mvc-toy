@@ -23,19 +23,36 @@ public class Post extends AuditEntity {
 
     @Builder
     public Post(final String title, final String content) {
+        validateTitle(title);
         this.title = title;
+
+        validateContent(content);
         this.content = content;
     }
 
     public Post update(final String title, final String content) {
+        validateTitle(title);
         this.title = title;
+
+        validateContent(content);
         this.content = content;
+
         return this;
     }
 
     public Post update(final Post newPost) {
-        this.title = newPost.getTitle();
-        this.content = newPost.getContent();
-        return this;
+        return (update(newPost.getTitle(), newPost.getContent()));
+    }
+
+    private void validateTitle(final String title) {
+        if (title == null || title.isBlank()) {
+            throw new IllegalArgumentException("title can not be blank");
+        }
+    }
+
+    private void validateContent(final String content) {
+        if (content == null || content.isBlank()) {
+            throw new IllegalArgumentException("content can not be blank");
+        }
     }
 }

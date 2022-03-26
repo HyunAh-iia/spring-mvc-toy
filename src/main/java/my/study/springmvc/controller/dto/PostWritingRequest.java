@@ -2,7 +2,10 @@ package my.study.springmvc.controller.dto;
 
 import my.study.springmvc.model.posts.Post;
 
-public record PostWritingRequest(String title, String content) {
+import javax.validation.constraints.NotBlank;
+
+public record PostWritingRequest(@NotBlank String title,
+                                 @NotBlank String content) {
     public Post toPost() {
         return Post.builder()
                 .title(this.title)
