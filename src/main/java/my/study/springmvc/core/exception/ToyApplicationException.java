@@ -8,19 +8,15 @@ import org.springframework.http.HttpStatus;
 @ToString
 public class ToyApplicationException extends RuntimeException {
     private final HttpStatus httpStatus;
+    private final i18nErrorCode errorCode;
 
-    public ToyApplicationException(HttpStatus httpStatus) {
-        super();
-        this.httpStatus = httpStatus;
+    public ToyApplicationException(i18nErrorCode errorCode, HttpStatus httpStatus) {
+        this(errorCode, null, httpStatus);
     }
 
-    public ToyApplicationException(String message, HttpStatus httpStatus) {
-        super(message);
-        this.httpStatus = httpStatus;
-    }
-
-    public ToyApplicationException(String message, Throwable cause, HttpStatus httpStatus) {
-        super(message, cause);
+    public ToyApplicationException(i18nErrorCode errorCode, Throwable cause, HttpStatus httpStatus) {
+        super(null, cause);
+        this.errorCode = errorCode;
         this.httpStatus = httpStatus;
     }
 }

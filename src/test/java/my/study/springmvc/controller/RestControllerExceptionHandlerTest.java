@@ -13,11 +13,12 @@ class RestControllerExceptionHandlerTest extends AbstractRestControllerTest {
         webTestClient
                 .get()
                 .uri("/posts/999")
+                .header("Accept-Language", "ko")
                 .exchange()
                 .expectStatus().isNotFound()
                 .expectBody()
                 .jsonPath("$.result").isEqualTo("failure")
-                .jsonPath("$.reason").exists();
+                .jsonPath("$.reason").isEqualTo("존재하지 않는 게시글입니다.");
     }
 
     @DisplayName("MethodArgumentNotValidException 예외를 처리하는 테스트")

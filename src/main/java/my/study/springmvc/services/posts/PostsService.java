@@ -19,7 +19,7 @@ public class PostsService {
     @Transactional(readOnly = true)
     public Post getPost(Long id) {
         return postRepository.findByIdAndDeleted(id, NOT_DELETED)
-                .orElseThrow(() -> new PostNotFoundException(id));
+                .orElseThrow(PostNotFoundException::new);
     }
 
     @Transactional(readOnly = true)
