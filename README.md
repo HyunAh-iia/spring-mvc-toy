@@ -20,7 +20,7 @@ Spring MVC 이해를 위해 간단한 게시판 예제를 작성한다.
     - [ ] `@Contoller` 추가하여 view ref 제공
     - [ ] Tymeleaf를 활용한 UI 구현
 - 일관된 응답 포맷 제공
-    - [ ] 성공 시의 응답 포멧 정의
+    - [x] 성공 시의 응답 포멧 정의
     - [x] 요청 예외처리(ControllerAdvice)
     - [x] 메시지 국제화(i18n) 적용
 - 로깅

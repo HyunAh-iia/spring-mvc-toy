@@ -1,6 +1,6 @@
 package my.study.springmvc.controller;
 
-import my.study.springmvc.controller.dto.PostWritingRequest;
+import my.study.springmvc.controller.posts.dto.PostWritingRequest;
 import my.study.springmvc.testconfig.AbstractRestControllerTest;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

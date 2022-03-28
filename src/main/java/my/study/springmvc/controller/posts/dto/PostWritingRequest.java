@@ -1,4 +1,4 @@
-package my.study.springmvc.controller.dto;
+package my.study.springmvc.controller.posts.dto;
 
 import my.study.springmvc.model.posts.Post;
 
