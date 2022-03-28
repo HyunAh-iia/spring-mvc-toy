@@ -1,6 +1,9 @@
 package my.study.springmvc.model.posts;
 
-import lombok.*;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
 import my.study.springmvc.core.model.AuditEntity;
 
 import javax.persistence.Entity;
@@ -54,13 +57,13 @@ public class Post extends AuditEntity {
 
     private void validateTitle(final String title) {
         if (title == null || title.isBlank()) {
-            throw new IllegalArgumentException("title can not be blank");
+            throw new IllegalArgumentException("title은 필수값입니다.");
         }
     }
 
     private void validateContent(final String content) {
         if (content == null || content.isBlank()) {
-            throw new IllegalArgumentException("content can not be blank");
+            throw new IllegalArgumentException("content은 필수값입니다.");
         }
     }
 }
