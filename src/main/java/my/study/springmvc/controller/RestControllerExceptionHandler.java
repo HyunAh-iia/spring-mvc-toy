@@ -71,8 +71,8 @@ public class RestControllerExceptionHandler {
 
     @ExceptionHandler(Exception.class)
     public ResponseEntity<ToyErrorResponse> handleException(Exception ex, WebRequest request) {
-        logger.error("Unknown Exception: {}", ex);
-        logger.error("Unknown Exception Request: {}", request);
+        logger.error("!@@ Unknown Exception: {}", ex);
+        logger.error("!@@ Unknown Exception Request: {}", request);
         ToyErrorResponse errorResponse = new ToyErrorResponse(ex.getMessage());
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(errorResponse);
     }
