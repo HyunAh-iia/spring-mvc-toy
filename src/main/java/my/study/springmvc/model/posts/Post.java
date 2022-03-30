@@ -6,10 +6,9 @@ import lombok.NoArgsConstructor;
 import lombok.ToString;
 import my.study.springmvc.core.model.AuditEntity;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @ToString
 @Getter
@@ -24,35 +23,53 @@ public class Post extends AuditEntity {
 
     private String content;
 
+    @ElementCollection
+    @CollectionTable(name = "post_files", joinColumns = @JoinColumn(name = "id"))
+    @Column(name = "url")
+    private List<String> fileUrls = new ArrayList<>();
+
     private boolean deleted;
 
     @Builder
-    public Post(final String title, final String content) {
+    public Post(final String title, final String content, final List<String> fileUrls) {
         validateTitle(title);
         this.title = title;
 
         validateContent(content);
         this.content = content;
 
+        withFiles(fileUrls);
         this.deleted = false;
     }
 
-    public Post update(final String title, final String content) {
+    public Post update(final String title, final String content, final List<String> fileUrls) {
         validateTitle(title);
         this.title = title;
 
         validateContent(content);
         this.content = content;
 
+        withFiles(fileUrls);
+        
         return this;
     }
 
     public Post update(final Post newPost) {
-        return (update(newPost.getTitle(), newPost.getContent()));
+        return update(newPost.getTitle(), newPost.getContent(), newPost.getFileUrls());
     }
 
     public void delete() {
         this.deleted = true;
+    }
+
+    public Post withFiles(final List<String> fileUrls) {
+        if (this.fileUrls == null) {
+            this.fileUrls = fileUrls;
+            return this;
+        }
+
+        this.fileUrls.addAll(fileUrls);
+        return this;
     }
 
     private void validateTitle(final String title) {

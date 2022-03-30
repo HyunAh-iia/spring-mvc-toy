@@ -13,7 +13,7 @@ Spring MVC 이해를 위해 간단한 게시판 예제를 작성한다.
 
 - MVC 패턴으로 게시판(Posts) REST API 작성
     - [x] CRUD 기능 구현
-    - [ ] 파일 업로드 기능 구현
+    - [x] 파일 업로드 기능 구현
 - MVC 패턴으로 댓글(Comments) REST API 작성
     - [ ] CRUD 기능 구현 (단, depth는 1단계로 제한)
 - 게시판, 댓글 UI 구현
