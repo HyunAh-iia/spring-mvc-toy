@@ -38,7 +38,7 @@ public class Post extends AuditEntity {
         validateContent(content);
         this.content = content;
 
-        withFiles(fileUrls);
+        this.fileUrls = fileUrls;
         this.deleted = false;
     }
 
@@ -49,8 +49,8 @@ public class Post extends AuditEntity {
         validateContent(content);
         this.content = content;
 
-        withFiles(fileUrls);
-        
+        this.fileUrls = fileUrls;
+
         return this;
     }
 
@@ -62,7 +62,7 @@ public class Post extends AuditEntity {
         this.deleted = true;
     }
 
-    public Post withFiles(final List<String> fileUrls) {
+    public Post addFiles(final List<String> fileUrls) {
         if (this.fileUrls == null) {
             this.fileUrls = fileUrls;
             return this;
@@ -74,13 +74,13 @@ public class Post extends AuditEntity {
 
     private void validateTitle(final String title) {
         if (title == null || title.isBlank()) {
-            throw new IllegalArgumentException("title은 필수값입니다.");
+            throw new IllegalArgumentException("title can not be null or blank");
         }
     }
 
     private void validateContent(final String content) {
         if (content == null || content.isBlank()) {
-            throw new IllegalArgumentException("content은 필수값입니다.");
+            throw new IllegalArgumentException("content can not be null or blank");
         }
     }
 }
