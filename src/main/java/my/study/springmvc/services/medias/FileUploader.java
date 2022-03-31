@@ -16,6 +16,9 @@ public class FileUploader implements Uploader {
 
     @Override
     public List<String> upload(List<MultipartFile> files) {
+        if (files == null || files.isEmpty()) {
+            return null;
+        }
         return files.stream().map(file -> UPLOADED_PATH).toList();
     }
 }
