@@ -12,9 +12,9 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 class PostTest {
-    @DisplayName("Post 생성 성공")
+    @DisplayName("Post 생성")
     @Test
-    void testPostCreationSuccess() {
+    void postCreation() {
         // given
         final String title = "제목";
         final String content = "게시글 내용";
@@ -41,7 +41,7 @@ class PostTest {
             "' ',title can not be null or blank"
     })
     @ParameterizedTest
-    void testPostCreationFailureWhenTitleIsInvalid(final String title, final String expectedMessage) {
+    void throwExceptionThenPostCreationFailureWhenTitleIsInvalid(final String title, final String expectedMessage) {
         // given
         final String content = "게시글 내용";
         final List<String> urls = List.of("http://url1", "http://url2");
@@ -63,7 +63,7 @@ class PostTest {
             "' ',content can not be null or blank"
     })
     @ParameterizedTest
-    void testPostCreationFailureWhenContentIsInvalid(final String content, final String expectedMessage) {
+    void throwExceptionThenPostCreationFailureWhenContentIsInvalid(final String content, final String expectedMessage) {
         // given
         final String title = "제목";
         final List<String> urls = List.of("http://url1", "http://url2");
@@ -78,9 +78,9 @@ class PostTest {
                 .hasMessage(expectedMessage);
     }
 
-    @DisplayName("Post 수정 성공")
+    @DisplayName("Post 수정")
     @Test
-    void testPostModificationSuccess() {
+    void postModification() {
         // given
         final String title = "제목";
         final String content = "게시글 내용";
@@ -106,9 +106,9 @@ class PostTest {
         assertThat(post.getFileUrls()).containsExactlyElementsOf(deletedUrls);
     }
 
-    @DisplayName("Post 삭제 성공")
+    @DisplayName("Post 삭제")
     @Test
-    void testPostDeletingSuccess() {
+    void postDeleting() {
         // given
         final String title = "제목";
         final String content = "게시글 내용";

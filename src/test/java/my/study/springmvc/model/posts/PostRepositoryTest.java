@@ -18,7 +18,7 @@ class PostRepositoryTest extends AbstractRepositoryTest {
 
     @DisplayName("Post 저장")
     @Test
-    void testSave() {
+    void save() {
         // given
         final Post post = Post.builder()
                 .title("title")
@@ -36,7 +36,7 @@ class PostRepositoryTest extends AbstractRepositoryTest {
 
     @DisplayName("Post 조회")
     @Test
-    void testFindByIdAndDeleted() {
+    void findByIdAndDeleted() {
         // given
         final boolean NOT_DELETED = false;
         final Post post = Post.builder()
@@ -55,7 +55,7 @@ class PostRepositoryTest extends AbstractRepositoryTest {
 
     @DisplayName("삭제된 Post는 조회되지 않음")
     @Test
-    void testNothingFindByIdAndDeleted() {
+    void nothingFoundByIdAndDeleted() {
         // given
         final boolean NOT_DELETED = false;
         final Post post = Post.builder()
@@ -74,7 +74,7 @@ class PostRepositoryTest extends AbstractRepositoryTest {
 
     @DisplayName("삭제되지 않은 Post 목록 조회")
     @Test
-    void testFindAllByDeleted() {
+    void findAllByDeleted() {
         // given
         final boolean NOT_DELETED = false;
         final Post post = Post.builder()
