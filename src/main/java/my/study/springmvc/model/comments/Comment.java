@@ -1,5 +1,6 @@
 package my.study.springmvc.model.comments;
 
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import my.study.springmvc.core.model.AuditEntity;
@@ -18,6 +19,15 @@ public class Comment extends AuditEntity {
     private String content;
 
     @ManyToOne(targetEntity = Post.class, fetch = FetchType.LAZY)
-    @JoinColumn(name = "post_id")
+    @JoinColumn(name = "post_id", insertable = false, updatable = false)
     private Post post;
+
+    @Column(name = "post_id")
+    private Long postId;
+
+    @Builder
+    public Comment(final String content, final Long postId) {
+        this.content = content;
+        this.postId = postId;
+    }
 }

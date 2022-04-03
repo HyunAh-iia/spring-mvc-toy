@@ -7,6 +7,7 @@ import my.study.springmvc.services.posts.PostsService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @RequiredArgsConstructor
 @Service
@@ -14,8 +15,15 @@ public class CommentsService {
     private final CommentsRepository commentsRepository;
     private final PostsService postsService;
 
+    @Transactional(readOnly = true)
     public Page<Comment> getComments(Long postId, Pageable pageable) {
         Long existsPostId = postsService.getPost(postId).getId();
         return commentsRepository.findAllByPostId(existsPostId, pageable);
+    }
+
+    @Transactional
+    public Comment writeComment(Comment comment) {
+        Long existsPostId = postsService.getPost(comment.getPostId()).getId();
+        return commentsRepository.save(comment);
     }
 }
