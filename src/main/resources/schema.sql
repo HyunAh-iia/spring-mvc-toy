@@ -17,3 +17,14 @@ CREATE TABLE `post_files`
     FOREIGN KEY (id) REFERENCES post (id)
 ) ENGINE = InnoDB
   charset = utf8;
+
+CREATE TABLE `comment`
+(
+    `id`         INT          NOT NULL AUTO_INCREMENT,
+    `content`    VARCHAR(255) NOT NULL,
+    `post_id`    INT          NOT NULL,
+    `created_at` TIMESTAMP    NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    `updated_at` TIMESTAMP    NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (post_id) REFERENCES post (id)
+) ENGINE = InnoDB
+  charset = utf8;
