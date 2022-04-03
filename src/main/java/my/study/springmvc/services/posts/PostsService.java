@@ -35,7 +35,7 @@ public class PostsService {
     @Transactional
     public Post writerPost(Post post, final List<MultipartFile> files) {
         List<String> urls = uploader.upload(files);
-        post.withFiles(urls);
+        post.addFiles(urls);
         return postRepository.save(post);
     }
 
@@ -43,7 +43,7 @@ public class PostsService {
     public Post updatePost(Long id, Post newPost, final List<MultipartFile> files) {
         Post post = getPost(id);
         List<String> urls = uploader.upload(files);
-        newPost.withFiles(urls);
+        newPost.addFiles(urls);
         return post.update(newPost);
     }
 
