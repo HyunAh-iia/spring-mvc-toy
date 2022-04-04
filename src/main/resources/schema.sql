@@ -22,6 +22,7 @@ CREATE TABLE `comment`
 (
     `id`         INT          NOT NULL AUTO_INCREMENT,
     `content`    VARCHAR(255) NOT NULL,
+    `deleted`    TINYINT(1)   NOT NULL DEFAULT 0,
     `post_id`    INT          NOT NULL,
     `created_at` TIMESTAMP    NOT NULL DEFAULT CURRENT_TIMESTAMP,
     `updated_at` TIMESTAMP    NOT NULL DEFAULT CURRENT_TIMESTAMP,
