@@ -11,6 +11,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 
+import java.util.List;
+
 import static org.assertj.core.api.Assertions.assertThat;
 
 class CommentsRepositoryTest extends AbstractRepositoryTest {
@@ -35,7 +37,7 @@ class CommentsRepositoryTest extends AbstractRepositoryTest {
         existsPostId = postRepository.save(post).getId();
     }
 
-    @DisplayName("Comment 저장")
+    @DisplayName("댓글 저장")
     @Test
     void save() {
         // given
@@ -53,7 +55,7 @@ class CommentsRepositoryTest extends AbstractRepositoryTest {
         assertThat(savedComment.getContent()).isEqualTo(comment.getContent());
     }
 
-    @DisplayName("Comment 목록 조회")
+    @DisplayName("댓글 목록 조회")
     @Test
     void findAllByPostId() {
         //given
@@ -64,5 +66,30 @@ class CommentsRepositoryTest extends AbstractRepositoryTest {
 
         // then
         assertThat(comments.getTotalElements()).isEqualTo(pageable.getPageSize());
+    }
+
+    @DisplayName("대댓글 목록 조회")
+    @Test
+    void findAllByParentIdIn() {
+        // given
+        final Comment comment = Comment.builder()
+                .postId(existsPostId)
+                .content("comment")
+                .build();
+        final Comment savedComment = commentsRepository.save(comment);
+
+        final Comment reply = Comment.builder()
+                .postId(existsPostId)
+                .content("comment")
+                .parentId(savedComment.getId())
+                .build();
+        commentsRepository.save(reply);
+
+        // when
+        List<Comment> replies = commentsRepository.findAllByParentIdIn(List.of(savedComment.getId()));
+
+        assertThat(replies.size()).isEqualTo(1);
+        assertThat(replies.get(0).getId()).isEqualTo(reply.getId());
+        assertThat(replies.get(0).getParentId()).isEqualTo(savedComment.getId());
     }
 }
