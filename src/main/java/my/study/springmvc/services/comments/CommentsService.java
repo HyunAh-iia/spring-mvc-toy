@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import my.study.springmvc.model.comments.Comment;
 import my.study.springmvc.model.comments.CommentsRepository;
 import my.study.springmvc.model.comments.exception.CommentNotFound;
+import my.study.springmvc.model.comments.exception.CommentReplyDepth;
 import my.study.springmvc.services.posts.PostsService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -25,6 +26,10 @@ public class CommentsService {
     @Transactional
     public Comment writeComment(Comment comment) {
         Long existsPostId = postsService.getPost(comment.getPostId()).getId();
+        Comment parentComment = commentsRepository.getById(comment.getParentId());
+        if (parentComment.getParentId() != null) {
+            throw new CommentReplyDepth();
+        }
         return commentsRepository.save(comment);
     }
 

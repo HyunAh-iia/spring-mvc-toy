@@ -4,7 +4,6 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import my.study.springmvc.core.model.AuditEntity;
-import my.study.springmvc.model.posts.Post;
 
 import javax.persistence.*;
 
@@ -20,17 +19,21 @@ public class Comment extends AuditEntity {
 
     private boolean deleted;
 
-    @ManyToOne(targetEntity = Post.class, fetch = FetchType.LAZY)
-    @JoinColumn(name = "post_id", insertable = false, updatable = false)
-    private Post post;
-
     @Column(name = "post_id")
     private Long postId;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "parent_id", referencedColumnName = "id", insertable = false, updatable = false)
+    private Comment parent;
+
+    @Column(name = "parent_id")
+    private Long parentId;
+
     @Builder
-    public Comment(final String content, final Long postId) {
+    public Comment(final String content, final Long postId, final Long parentId) {
         this.content = content;
         this.postId = postId;
+        this.parentId = parentId;
         this.deleted = false;
     }
 

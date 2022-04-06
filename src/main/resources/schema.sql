@@ -24,8 +24,11 @@ CREATE TABLE `comment`
     `content`    VARCHAR(255) NOT NULL,
     `deleted`    TINYINT(1)   NOT NULL DEFAULT 0,
     `post_id`    INT          NOT NULL,
+    `parent_id`  INT          NULL,
     `created_at` TIMESTAMP    NOT NULL DEFAULT CURRENT_TIMESTAMP,
     `updated_at` TIMESTAMP    NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (post_id) REFERENCES post (id)
+    PRIMARY KEY (`id`),
+    FOREIGN KEY (post_id) REFERENCES post (id),
+    FOREIGN KEY (parent_id) REFERENCES comment (id)
 ) ENGINE = InnoDB
   charset = utf8;
