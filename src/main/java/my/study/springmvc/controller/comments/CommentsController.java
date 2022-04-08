@@ -3,6 +3,7 @@ package my.study.springmvc.controller.comments;
 import lombok.RequiredArgsConstructor;
 import my.study.springmvc.controller.ToySuccessResponse;
 import my.study.springmvc.controller.comments.dto.CommentDto;
+import my.study.springmvc.controller.comments.dto.CommentRepliesDto;
 import my.study.springmvc.controller.comments.dto.CommentWritingRequest;
 import my.study.springmvc.services.comments.CommentsService;
 import org.springframework.data.domain.Page;
@@ -16,9 +17,9 @@ public class CommentsController {
     private final CommentsService commentsService;
 
     @GetMapping
-    public ToySuccessResponse<Page<CommentDto>> getComments(@PathVariable Long postId, Pageable pageable) {
+    public ToySuccessResponse<Page<CommentRepliesDto>> getComments(@PathVariable Long postId, Pageable pageable) {
         return ToySuccessResponse.success(
-                commentsService.getComments(postId, pageable).map(CommentDto::of)
+                commentsService.getCommentsWithReplies(postId, pageable)
         );
     }
 
