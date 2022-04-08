@@ -10,6 +10,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
+
 @RequestMapping("posts/{postId}/comments")
 @RequiredArgsConstructor
 @RestController
@@ -24,7 +26,7 @@ public class CommentsController {
     }
 
     @PostMapping
-    public CommentDto writerComment(@PathVariable Long postId, @RequestBody CommentWritingRequest request) {
+    public CommentDto writerComment(@PathVariable Long postId, @RequestBody @Valid CommentWritingRequest request) {
         return CommentDto.of(commentsService.writeComment(request.toComment(postId)));
     }
 

@@ -32,9 +32,8 @@ public class CommentsService {
     @Transactional
     public Comment writeComment(Comment comment) {
         Long existsPostId = postsService.getPost(comment.getPostId()).getId();
-        Comment parentComment = commentsRepository.getById(comment.getParentId());
-        if (parentComment.getParentId() != null) {
-            throw new CommentReplyDepth();
+        if (comment.getParentId() != null) {
+            validateWriteReply(comment.getParentId());
         }
         return commentsRepository.save(comment);
     }
@@ -55,5 +54,12 @@ public class CommentsService {
     private Page<Comment> getComments(Long postId, Pageable pageable) {
         Long existsPostId = postsService.getPost(postId).getId();
         return commentsRepository.findAllByPostId(existsPostId, pageable);
+    }
+
+    private void validateWriteReply(Long parentId) {
+        Comment parentComment = commentsRepository.getById(parentId);
+        if (parentComment.getParentId() != null) {
+            throw new CommentReplyDepth();
+        }
     }
 }
