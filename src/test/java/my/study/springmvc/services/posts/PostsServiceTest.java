@@ -51,26 +51,6 @@ class PostsServiceTest {
     }
 
     @Test
-    @DisplayName("게시글 저장")
-    void writerPost() {
-        // given
-        Post post = Post.builder()
-                .title("title")
-                .content(UUID.randomUUID().toString())
-                .build();
-
-        // when
-        PostsService postsService = this.createPostsService();
-        Post savedPost = postsService.writerPost(post, null);
-
-        // then
-        assertThat(postRepository.findAll().size()).isEqualTo(1);
-        assertThat(savedPost.getTitle()).isEqualTo(savedPost.getTitle());
-        assertThat(savedPost.getContent()).isEqualTo(savedPost.getContent());
-        assertThat(savedPost.getFileUrls()).isEqualTo(savedPost.getFileUrls());
-    }
-
-    @Test
     @DisplayName("게시글 삭제")
     void deletePost() {
         // given
@@ -88,6 +68,26 @@ class PostsServiceTest {
 
         Post deletedPost = postRepository.findAll().get(0);
         assertThat(deletedPost.isDeleted()).isTrue();
+    }
+
+    @DisplayName("게시글 저장")
+    @Test
+    void writerPost() {
+        // given
+        Post post = Post.builder()
+                .title("title")
+                .content(UUID.randomUUID().toString())
+                .build();
+
+        // when
+        PostsService postsService = this.createPostsService();
+        Post savedPost = postsService.writerPost(post, null);
+
+        // then
+        assertThat(postRepository.findAll().size()).isEqualTo(1);
+        assertThat(savedPost.getTitle()).isEqualTo(savedPost.getTitle());
+        assertThat(savedPost.getContent()).isEqualTo(savedPost.getContent());
+        assertThat(savedPost.getFileUrls()).isEqualTo(savedPost.getFileUrls());
     }
 
     @DisplayName("정상적으로 게시글을 조회")
@@ -132,7 +132,7 @@ class PostsServiceTest {
                 .title("title")
                 .content(UUID.randomUUID().toString())
                 .build());
-        
+
         postRepository.save(Post.builder()
                 .title("title")
                 .content(UUID.randomUUID().toString())
