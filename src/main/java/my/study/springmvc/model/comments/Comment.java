@@ -4,6 +4,8 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import my.study.springmvc.core.model.AuditEntity;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 import javax.persistence.*;
 
@@ -22,8 +24,9 @@ public class Comment extends AuditEntity {
     @Column(name = "post_id")
     private Long postId;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
     @JoinColumn(name = "parent_id", referencedColumnName = "id", insertable = false, updatable = false)
+    @OnDelete(action = OnDeleteAction.CASCADE)
     private Comment parent;
 
     @Column(name = "parent_id")

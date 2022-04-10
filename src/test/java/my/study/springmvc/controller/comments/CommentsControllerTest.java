@@ -11,6 +11,8 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.util.List;
+
 class CommentsControllerTest extends AbstractRestControllerTest {
     private Post existsPost = null;
 
@@ -22,7 +24,8 @@ class CommentsControllerTest extends AbstractRestControllerTest {
 
     @BeforeEach
     void setUp() {
-        commentsRepository.deleteAll();
+        List<Comment> comments = commentsRepository.findAll().stream().filter(comment -> comment.getParentId() == null).toList();
+        commentsRepository.deleteAll(comments);
     }
 
     private Post getExistsPost() {
