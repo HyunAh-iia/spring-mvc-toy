@@ -10,12 +10,14 @@ import my.study.springmvc.testconfig.doubles.fake.FakePostRepository;
 import my.study.springmvc.testconfig.doubles.stub.StubUploader;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mockito;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.mockito.BDDMockito.given;
 
 class CommentsServiceTest {
     private final CommentsRepository commentsRepository = new FakeCommentsRepository();
@@ -27,7 +29,7 @@ class CommentsServiceTest {
 
     private Post getExistsPost() {
         final int FIRST = 0;
-        Page<Post> postList = postsService.getPostList(PageRequest.of(FIRST, 1));
+        final Page<Post> postList = postsService.getPostList(PageRequest.of(FIRST, 1));
         if (postList.getTotalElements() == 0) {
             Post post = Post.builder()
                     .title("title")
@@ -66,7 +68,7 @@ class CommentsServiceTest {
     @Test
     void throwExceptionWhenGetCommentsOfNotExistsPost() {
         // given
-        Long doesNotExistsPostId = -1L;
+        final Long doesNotExistsPostId = -1L;
 
         // when/then
         assertThatThrownBy(() -> createdCommentsService()
@@ -74,8 +76,25 @@ class CommentsServiceTest {
     }
 
     @DisplayName("댓글 작성")
+    @Test
     void writeComment() {
+        // given
+        final Long existsPostId = getExistsPost().getId();
+        final Long commentId = 5L;
 
+        final Comment mockComment = Mockito.mock(Comment.class);
+        given(mockComment.getId()).willReturn(commentId);
+        given(mockComment.getPostId()).willReturn(existsPostId);
+        given(mockComment.getContent()).willReturn("content");
+        given(mockComment.getParentId()).willReturn(null);
+
+        // when
+        Comment savedComment = createdCommentsService().writeComment(mockComment);
+
+        // then
+        assertThat(savedComment.getId()).isEqualTo(commentId);
+        assertThat(savedComment.getContent()).isEqualTo(mockComment.getContent());
+        assertThat(savedComment.getPostId()).isEqualTo(mockComment.getPostId());
     }
 
     @DisplayName("댓글 삭제")
