@@ -56,6 +56,7 @@ class CommentsControllerTest extends AbstractRestControllerTest {
                 .build()
         );
 
+        // when/then
         webTestClient.get()
                 .uri("posts/{postId}/comments", getExistsPost().getId())
                 .exchange()
