@@ -62,7 +62,7 @@ class CommentsRepositoryTest extends AbstractRepositoryTest {
         final Pageable pageable = PageRequest.of(1, 1);
 
         // when
-        Page<Comment> comments = commentsRepository.findAllByPostId(existsPostId, pageable);
+        Page<Comment> comments = commentsRepository.findAllByPostIdAndParentIdIsNull(existsPostId, pageable);
 
         // then
         assertThat(comments.getTotalElements()).isEqualTo(pageable.getPageSize());

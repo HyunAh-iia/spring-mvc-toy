@@ -16,10 +16,10 @@ public class FakeCommentsRepository extends ReflectionField implements CommentsR
     LinkedHashSet<Comment> comments = new LinkedHashSet<>();
 
     @Override
-    public Page<Comment> findAllByPostId(Long postId, Pageable pageable) {
+    public Page<Comment> findAllByPostIdAndParentIdIsNull(Long postId, Pageable pageable) {
         return new PageImpl<>(
                 comments.stream()
-                        .filter(comment -> comment.getPostId().equals(postId))
+                        .filter(comment -> comment.getPostId().equals(postId) && comment.getParentId() == null)
                         .toList()
         );
     }
