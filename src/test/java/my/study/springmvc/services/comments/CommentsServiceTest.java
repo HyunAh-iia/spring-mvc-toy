@@ -98,7 +98,22 @@ class CommentsServiceTest {
     }
 
     @DisplayName("댓글 삭제")
+    @Test
     void deleteComment() {
+        // given
+        final Long existsPostId = getExistsPost().getId();
+        final Comment comment = commentsRepository.save(Comment.builder()
+                .postId(existsPostId)
+                .content("content")
+                .build());
 
+        // when
+        createdCommentsService()
+                .deleteComment(existsPostId, comment.getId());
+
+        // then
+        final Comment deletedComment = commentsRepository.findById(comment.getId()).orElse(null);
+        assertThat(deletedComment).isNotNull();
+        assertThat(deletedComment.isDeleted()).isTrue();
     }
 }

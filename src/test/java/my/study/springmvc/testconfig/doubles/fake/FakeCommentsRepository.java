@@ -95,7 +95,12 @@ public class FakeCommentsRepository extends ReflectionField implements CommentsR
 
     @Override
     public Optional<Comment> findById(Long aLong) {
-        throw new UnsupportedOperationException();
+        return Optional.of(
+                comments.stream()
+                        .filter(comment -> comment.getId().equals(aLong))
+                        .findFirst()
+                        .get()
+        );
     }
 
     @Override
