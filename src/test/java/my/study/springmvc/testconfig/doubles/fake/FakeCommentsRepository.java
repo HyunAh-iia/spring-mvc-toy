@@ -1,51 +1,53 @@
 package my.study.springmvc.testconfig.doubles.fake;
 
-import my.study.springmvc.model.posts.Post;
-import my.study.springmvc.model.posts.PostRepository;
+import my.study.springmvc.model.comments.Comment;
+import my.study.springmvc.model.comments.CommentsRepository;
 import my.study.springmvc.testconfig.utils.ReflectionField;
 import org.springframework.data.domain.*;
 import org.springframework.data.repository.query.FluentQuery;
 
+import java.util.Collection;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Optional;
-import java.util.Set;
 import java.util.function.Function;
 
-public class FakePostRepository extends ReflectionField implements PostRepository {
-    private final Set<Post> posts = new LinkedHashSet<>();
+public class FakeCommentsRepository extends ReflectionField implements CommentsRepository {
+    LinkedHashSet<Comment> comments = new LinkedHashSet<>();
 
     @Override
-    public Optional<Post> findByIdAndDeleted(Long id, boolean deleted) {
-        return posts.stream()
-                .filter(post -> (post.getId() == null || post.getId().equals(id)) && post.isDeleted() == deleted)
-                .findFirst();
+    public Page<Comment> findAllByPostIdAndParentIdIsNull(Long postId, Pageable pageable) {
+        return new PageImpl<>(
+                comments.stream()
+                        .filter(comment -> comment.getPostId().equals(postId) && comment.getParentId() == null)
+                        .toList()
+        );
     }
 
     @Override
-    public Page<Post> findAllByDeleted(boolean deleted, Pageable pageable) {
-        return new PageImpl<>(posts.stream()
-                .filter(post -> post.isDeleted() == deleted)
-                .toList());
+    public List<Comment> findAllByParentIdIn(Collection<Long> parentIds) {
+        return comments.stream()
+                .filter(comment -> parentIds.contains(comment.getParentId()))
+                .toList();
     }
 
     @Override
-    public List<Post> findAll() {
-        return this.posts.stream().toList();
-    }
-
-    @Override
-    public List<Post> findAll(Sort sort) {
+    public List<Comment> findAll() {
         throw new UnsupportedOperationException();
     }
 
     @Override
-    public Page<Post> findAll(Pageable pageable) {
+    public List<Comment> findAll(Sort sort) {
         throw new UnsupportedOperationException();
     }
 
     @Override
-    public List<Post> findAllById(Iterable<Long> longs) {
+    public Page<Comment> findAll(Pageable pageable) {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public List<Comment> findAllById(Iterable<Long> longs) {
         throw new UnsupportedOperationException();
     }
 
@@ -60,7 +62,7 @@ public class FakePostRepository extends ReflectionField implements PostRepositor
     }
 
     @Override
-    public void delete(Post entity) {
+    public void delete(Comment entity) {
         throw new UnsupportedOperationException();
     }
 
@@ -70,30 +72,35 @@ public class FakePostRepository extends ReflectionField implements PostRepositor
     }
 
     @Override
-    public void deleteAll(Iterable<? extends Post> entities) {
+    public void deleteAll(Iterable<? extends Comment> entities) {
         throw new UnsupportedOperationException();
     }
 
     @Override
     public void deleteAll() {
-        this.posts.clear();
-    }
-
-    @Override
-    public <S extends Post> S save(S entity) {
-        autoIncrement(entity);
-        posts.add(entity);
-        return entity;
-    }
-
-    @Override
-    public <S extends Post> List<S> saveAll(Iterable<S> entities) {
         throw new UnsupportedOperationException();
     }
 
     @Override
-    public Optional<Post> findById(Long aLong) {
-        return Optional.empty();
+    public <S extends Comment> S save(S entity) {
+        autoIncrement(entity);
+        comments.add(entity);
+        return entity;
+    }
+
+    @Override
+    public <S extends Comment> List<S> saveAll(Iterable<S> entities) {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public Optional<Comment> findById(Long aLong) {
+        return Optional.of(
+                comments.stream()
+                        .filter(comment -> comment.getId().equals(aLong))
+                        .findFirst()
+                        .get()
+        );
     }
 
     @Override
@@ -107,17 +114,17 @@ public class FakePostRepository extends ReflectionField implements PostRepositor
     }
 
     @Override
-    public <S extends Post> S saveAndFlush(S entity) {
+    public <S extends Comment> S saveAndFlush(S entity) {
         throw new UnsupportedOperationException();
     }
 
     @Override
-    public <S extends Post> List<S> saveAllAndFlush(Iterable<S> entities) {
+    public <S extends Comment> List<S> saveAllAndFlush(Iterable<S> entities) {
         throw new UnsupportedOperationException();
     }
 
     @Override
-    public void deleteAllInBatch(Iterable<Post> entities) {
+    public void deleteAllInBatch(Iterable<Comment> entities) {
         throw new UnsupportedOperationException();
     }
 
@@ -132,47 +139,47 @@ public class FakePostRepository extends ReflectionField implements PostRepositor
     }
 
     @Override
-    public Post getOne(Long aLong) {
+    public Comment getOne(Long aLong) {
         throw new UnsupportedOperationException();
     }
 
     @Override
-    public Post getById(Long aLong) {
+    public Comment getById(Long aLong) {
         throw new UnsupportedOperationException();
     }
 
     @Override
-    public <S extends Post> Optional<S> findOne(Example<S> example) {
+    public <S extends Comment> Optional<S> findOne(Example<S> example) {
         throw new UnsupportedOperationException();
     }
 
     @Override
-    public <S extends Post> List<S> findAll(Example<S> example) {
+    public <S extends Comment> List<S> findAll(Example<S> example) {
         throw new UnsupportedOperationException();
     }
 
     @Override
-    public <S extends Post> List<S> findAll(Example<S> example, Sort sort) {
+    public <S extends Comment> List<S> findAll(Example<S> example, Sort sort) {
         throw new UnsupportedOperationException();
     }
 
     @Override
-    public <S extends Post> Page<S> findAll(Example<S> example, Pageable pageable) {
+    public <S extends Comment> Page<S> findAll(Example<S> example, Pageable pageable) {
         throw new UnsupportedOperationException();
     }
 
     @Override
-    public <S extends Post> long count(Example<S> example) {
+    public <S extends Comment> long count(Example<S> example) {
         throw new UnsupportedOperationException();
     }
 
     @Override
-    public <S extends Post> boolean exists(Example<S> example) {
+    public <S extends Comment> boolean exists(Example<S> example) {
         throw new UnsupportedOperationException();
     }
 
     @Override
-    public <S extends Post, R> R findBy(Example<S> example, Function<FluentQuery.FetchableFluentQuery<S>, R> queryFunction) {
+    public <S extends Comment, R> R findBy(Example<S> example, Function<FluentQuery.FetchableFluentQuery<S>, R> queryFunction) {
         throw new UnsupportedOperationException();
     }
 }

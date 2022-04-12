@@ -8,7 +8,7 @@ import java.util.Collection;
 import java.util.List;
 
 public interface CommentsRepository extends JpaRepository<Comment, Long> {
-    Page<Comment> findAllByPostId(Long postId, Pageable pageable);
+    Page<Comment> findAllByPostIdAndParentIdIsNull(Long postId, Pageable pageable);
 
     List<Comment> findAllByParentIdIn(Collection<Long> parentIds);
 }

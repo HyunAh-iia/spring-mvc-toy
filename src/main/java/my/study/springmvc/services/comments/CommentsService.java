@@ -53,7 +53,7 @@ public class CommentsService {
 
     private Page<Comment> getComments(Long postId, Pageable pageable) {
         Long existsPostId = postsService.getPost(postId).getId();
-        return commentsRepository.findAllByPostId(existsPostId, pageable);
+        return commentsRepository.findAllByPostIdAndParentIdIsNull(existsPostId, pageable);
     }
 
     private void validateWriteReply(Long parentId) {

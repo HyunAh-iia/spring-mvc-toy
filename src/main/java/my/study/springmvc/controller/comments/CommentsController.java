@@ -26,8 +26,10 @@ public class CommentsController {
     }
 
     @PostMapping
-    public CommentDto writerComment(@PathVariable Long postId, @RequestBody @Valid CommentWritingRequest request) {
-        return CommentDto.of(commentsService.writeComment(request.toComment(postId)));
+    public ToySuccessResponse<CommentDto> writerComment(@PathVariable Long postId, @RequestBody @Valid CommentWritingRequest request) {
+        return ToySuccessResponse.success(
+                CommentDto.of(commentsService.writeComment(request.toComment(postId)))
+        );
     }
 
     @DeleteMapping("{commentId}")
