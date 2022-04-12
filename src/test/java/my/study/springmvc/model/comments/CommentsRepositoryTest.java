@@ -59,6 +59,11 @@ class CommentsRepositoryTest extends AbstractRepositoryTest {
     @Test
     void findAllByPostId() {
         //given
+        final Comment comment = Comment.builder()
+                .postId(existsPostId)
+                .content("comment")
+                .build();
+        commentsRepository.save(comment);
         final Pageable pageable = PageRequest.of(1, 1);
 
         // when
