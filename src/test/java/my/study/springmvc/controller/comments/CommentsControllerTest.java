@@ -24,7 +24,10 @@ class CommentsControllerTest extends AbstractRestControllerTest {
 
     @BeforeEach
     void setUp() {
-        List<Comment> comments = commentsRepository.findAll().stream().filter(comment -> comment.getParentId() == null).toList();
+        List<Comment> allComments = commentsRepository.findAll();
+        List<Comment> replies = allComments.stream().filter(comment -> comment.getParentId() != null).toList();
+        List<Comment> comments = allComments.stream().filter(comment -> comment.getParentId() == null).toList();
+        commentsRepository.deleteAll(replies);
         commentsRepository.deleteAll(comments);
     }
 

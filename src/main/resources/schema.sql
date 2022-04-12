@@ -29,6 +29,6 @@ CREATE TABLE `comment`
     `updated_at` TIMESTAMP    NOT NULL DEFAULT CURRENT_TIMESTAMP,
     PRIMARY KEY (`id`),
     FOREIGN KEY (post_id) REFERENCES post (id),
-    FOREIGN KEY (parent_id) REFERENCES comment (id) ON DELETE CASCADE
+    FOREIGN KEY (parent_id) REFERENCES comment (id)
 ) ENGINE = InnoDB
   charset = utf8;
