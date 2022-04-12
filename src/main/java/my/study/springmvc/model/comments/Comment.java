@@ -34,8 +34,13 @@ public class Comment extends AuditEntity {
 
     @Builder
     public Comment(final String content, final Long postId, final Long parentId) {
+        validateContent(content);
         this.content = content;
+
+        validatePostId(postId);
         this.postId = postId;
+
+        validateParentId(parentId);
         this.parentId = parentId;
         this.deleted = false;
     }
@@ -50,5 +55,31 @@ public class Comment extends AuditEntity {
         }
 
         return content;
+    }
+
+    private void validateContent(final String content) {
+        if (content == null || content.isBlank()) {
+            throw new IllegalArgumentException("content can not be null or blank");
+        }
+    }
+
+    private void validatePostId(final Long postId) {
+        if (postId == null) {
+            throw new IllegalArgumentException("postId can not be null");
+        }
+
+        if (postId < 1) {
+            throw new IllegalArgumentException("postId must be greater than 0");
+        }
+    }
+
+    private void validateParentId(final Long parentId) {
+        if (parentId == null) {
+            return;
+        }
+
+        if (parentId < 1) {
+            throw new IllegalArgumentException("parentId must be greater than 0");
+        }
     }
 }
