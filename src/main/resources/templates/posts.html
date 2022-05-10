@@ -6,15 +6,19 @@
 <body>
 <div th:replace="fragments/header :: header"></div>
 <div class="container">
-    <h3>게시판 목록</h3>
+    <h2>게시판 목록</h2>
     <table>
         <tr>
             <th>번호</th>
             <th>제목</th>
+            <th>내용</th>
+            <th>첨부파일</th>
         </tr>
         <tr th:each="post : ${posts}">
             <td th:text="${post.id}"></td>
             <td th:text="${post.title}"></td>
+            <td th:text="${post.content}"></td>
+            <td th:if="${not #lists.isEmpty(post.fileLinks)}" th:text="O"></td>
         </tr>
     </table>
 </div>
